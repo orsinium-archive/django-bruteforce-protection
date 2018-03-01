@@ -118,3 +118,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# ------------------------------------------------------------------------------
+
+from djbrut import Rule  # noQA
+
+BRUTEFORCE_TIMELIMIT = 1  # minute
+BRUTEFORCE_LIMITS = {
+    'default': Rule(
+        client=10,
+        ip=10,
+        csrf=10,
+        freq=10,
+    ),
+    'index': Rule(
+        client=0,
+        ip=5,
+        csrf=0,
+        freq=0,
+    ),
+}
