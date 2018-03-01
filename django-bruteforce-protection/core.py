@@ -3,15 +3,10 @@ import redis
 from .settings import settings
 
 
-# types
-TYPE_IP = 'ip'
-TYPE_CLIENT = 'client'
-TYPE_CSRF = 'csrf'
-
-
 class Attempt(object):
+    """Check request by all possible checkers for specified rule type
+    """
     error = None
-
     connection = redis.StrictRedis(
         host=settings.BRUTEFORCE_REDIS_HOST,
         port=settings.BRUTEFORCE_REDIS_PORT,
@@ -24,14 +19,21 @@ class Attempt(object):
             self.checkers.append(checker(self.connection, request, rule_type))
 
     def incr(self):
+        """Increment counters for all checkers
+        """
         for checker in self.checkers:
             checker.incr()
 
-    def is_ok(self, incr=True):
+    def check(self, incr=True):
+        """Check request by all checkers
+        Return True if all is fine, False otherwise.
+        """
         if not settings.BRUTEFORCE_PROTECTION_ENABLED:
             return True
         for checker in self.checkers:
             if not checker.check():
-                self.error = self.get_error()
+                self.error = checker.get_error()
                 return False
+        if incr:
+            self.incr()
         return True
