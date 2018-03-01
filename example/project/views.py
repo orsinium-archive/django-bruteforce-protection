@@ -3,7 +3,7 @@ from djbrut import Attempt
 
 
 def index(request):
-    attempt = Attempt(request)
+    attempt = Attempt('index', request)
     # check
     if not attempt.check():
         # error
