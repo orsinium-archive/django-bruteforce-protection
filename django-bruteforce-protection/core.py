@@ -13,10 +13,11 @@ class Attempt(object):
         db=settings.BRUTEFORCE_REDIS_DB,
     )
 
-    def __init__(self, rule_type, request):
+    def __init__(self, rule_type, request, **kwargs):
         self.checkers = []
         for checker in settings.BRUTEFORCE_CHECKERS:
-            self.checkers.append(checker(self.connection, request, rule_type))
+            checker = checker(self.connection, request, rule_type, **kwargs)
+            self.checkers.append(checker)
 
     def incr(self):
         """Increment counters for all checkers

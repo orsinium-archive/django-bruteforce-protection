@@ -12,16 +12,16 @@ class BaseChecker(object):
     settings = NotImplemented   # Django settings
     name = NotImplemented       # checker name
 
-    def __init__(self, connection, request, rule_type):
+    def __init__(self, connection, request, rule_type, **kwargs):
         self.connection = connection                    # for get_attempts and incr
         self.request = request                          # for logging
         self.limit = self.get_limit(rule_type)          # for check
-        self.key = self.get_key(request, rule_type)     # for redis connection
+        self.key = self.get_key(request, rule_type, **kwargs)   # for redis connection
 
-    def get_key(self, request, rule_type):
+    def get_key(self, request, rule_type, **kwargs):
         """Generate key for Redis
         """
-        value = self.get_value(request)
+        value = self.get_value(request, **kwargs)
         if value is None:
             return
         return self.key_template.format(
@@ -101,22 +101,24 @@ class BaseChecker(object):
 class UserChecker(BaseChecker):
     name = 'user'
 
-    def get_value(self, request):
-        if not request:
+    def get_value(self, request, user=None, **kwargs):
+        if not user:
+            if not request:
+                return
+            if not getattr(request, 'user'):
+                return
+            if not getattr(request, 'user'):
+                return
+            user = request.user
+        if not user.is_authenticated():
             return
-        if not getattr(request, 'user'):
-            return
-        if not getattr(request, 'user'):
-            return
-        if not request.user.is_authenticated():
-            return
-        return request.user.pk
+        return user.pk
 
 
 class IPChecker(BaseChecker):
     name = 'ip'
 
-    def get_value(self, request):
+    def get_value(self, request, **kwargs):
         if not request:
             return
         return request.META['REMOTE_ADDR']
@@ -125,7 +127,7 @@ class IPChecker(BaseChecker):
 class CSRFChecker(BaseChecker):
     name = 'csrf'
 
-    def get_value(self, request):
+    def get_value(self, request, **kwargs):
         if not request:
             return
         return getattr(request.POST, self.settings.CSRF_COOKIE_NAME, None)
