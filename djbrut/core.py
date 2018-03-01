@@ -2,6 +2,9 @@
 import redis
 from .settings import settings
 
+for checker in settings.BRUTEFORCE_CHECKERS:
+    checker.settings = settings
+
 
 class Attempt(object):
     """Check request by all possible checkers for specified rule type

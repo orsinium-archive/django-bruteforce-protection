@@ -1,4 +1,4 @@
 from collections import namedtuple
 
 
-Rule = namedtuple('Rule', ['client', 'ip', 'csrf', 'freq'])
+Rule = namedtuple('Rule', ['user', 'ip', 'csrf', 'freq'])

@@ -40,8 +40,10 @@ class BaseChecker(object):
         """Git limit from rule for current check
         """
         if rule_type in self.settings.BRUTEFORCE_LIMITS:
-            return self.settings.BRUTEFORCE_LIMITS[rule_type]
-        return self.settings.BRUTEFORCE_LIMITS['default']
+            rule = self.settings.BRUTEFORCE_LIMITS[rule_type]
+        else:
+            rule = self.settings.BRUTEFORCE_LIMITS['default']
+        return getattr(rule, self.name)
 
     def incr(self):
         """Increment attempts count
@@ -52,7 +54,7 @@ class BaseChecker(object):
             self.connection.incr(self.key, 1)
         else:
             self.connection.set(self.key, 1)
-            self.connection.expire(self.key, self.settings.TIMELIMIT * 60)
+            self.connection.expire(self.key, self.settings.BRUTEFORCE_TIMELIMIT * 60)
 
     def get_attempts(self):
         """Get current attempts count

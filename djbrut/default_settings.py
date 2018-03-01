@@ -11,7 +11,7 @@ BRUTEFORCE_PROTECTION_ENABLED = True
 BRUTEFORCE_TIMELIMIT = 10  # minutes
 BRUTEFORCE_LIMITS = {
     'default': Rule(
-        client=100,     # max requests for one client by TIMELIMIT
+        user=100,       # max requests for one user by TIMELIMIT
         ip=300,         # max requests for one IP by TIMELIMIT
         csrf=50,        # max requests with one CSRF token by TIMELIMIT
         freq=0,         # max request frequency for client [seconds]
