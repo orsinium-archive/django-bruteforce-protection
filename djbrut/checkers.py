@@ -80,6 +80,7 @@ class BaseChecker(object):
         return template.format(
             name=self.name,
             limit=self.limit,
+            timelimit=self.settings.BRUTEFORCE_TIMELIMIT,
         )
 
     def check(self):
