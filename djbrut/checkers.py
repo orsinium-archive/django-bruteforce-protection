@@ -64,6 +64,13 @@ class BaseChecker(object):
         data = self.connection.get(self.key)
         if not data:
             return 0
+
+        # drop expired keys
+        ttl = self.connection.ttl(self.key)
+        if ttl < 0:
+            self.connection.delete(self.key)
+            return 0
+
         return int(data)
 
     def log(self):
@@ -102,12 +109,13 @@ class BaseChecker(object):
 
     @classmethod
     def clear(cls, connection, rule='*', value='*'):
-        key = cls.key_template.format(
+        template = cls.key_template.format(
             rule=rule,
             checker=cls.name,
             value=value
         )
-        return connection.delete(key)
+        for key in connection.keys(template):
+            connection.delete(key)
 
 
 class UserChecker(BaseChecker):
