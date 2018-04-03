@@ -1,4 +1,4 @@
 
-from .core import Attempt   # noQA
-from . import checkers      # noQA
-from .utils import Rule     # noQA
+from .core import Attempt, clear    # noQA
+from . import checkers              # noQA
+from .utils import Rule             # noQA

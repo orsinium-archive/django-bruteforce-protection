@@ -100,6 +100,15 @@ class BaseChecker(object):
         # compare with limit
         return count < self.limit
 
+    @classmethod
+    def clear(cls, connection, rule='*', value='*'):
+        key = cls.key_template.format(
+            rule=rule,
+            checker=cls.name,
+            value=value
+        )
+        return connection.delete(key)
+
 
 class UserChecker(BaseChecker):
     name = 'user'
