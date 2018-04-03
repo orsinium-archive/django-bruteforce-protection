@@ -1,5 +1,7 @@
 # DjBrut
 
+![DjBrut logo](logo.png)
+
 DjBrut -- simple brutforce protection for Django project.
 
 Default checkers:
@@ -14,7 +16,7 @@ DjBrut use Redis as storage for all counters.
 ## Installation
 
 ```
-sudo pip3 install djbrut
+pip install djbrut
 ```
 
 ## Usage
