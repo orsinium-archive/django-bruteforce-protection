@@ -125,9 +125,7 @@ class UserChecker(BaseChecker):
         if not user:
             if not request:
                 return
-            if not getattr(request, 'user'):
-                return
-            if not getattr(request, 'user'):
+            if not getattr(request, 'user', None):
                 return
             user = request.user
         if not user.is_authenticated():
