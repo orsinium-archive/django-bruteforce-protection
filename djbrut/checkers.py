@@ -128,8 +128,16 @@ class UserChecker(BaseChecker):
             if not getattr(request, 'user', None):
                 return
             user = request.user
-        if not user.is_authenticated():
-            return
+
+        # user.is_authenticated is callable for old Django and bool for Django 2.0
+        is_auth = user.is_authenticated
+        if type(is_auth) is bool:
+            if not is_auth:
+                return
+        else:
+            if not is_auth():
+                return
+
         return user.pk
 
 
