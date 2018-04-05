@@ -1,6 +1,13 @@
 DjBrut
 ======
 
+.. figure:: logo.png
+   :alt: DjBrut logo
+
+   DjBrut logo
+
+|Build Status| |PyPI version| |Status| |Code size| |License|
+
 DjBrut -- simple brutforce protection for Django project.
 
 Default checkers:
@@ -17,7 +24,7 @@ Installation
 
 ::
 
-    sudo pip3 install djbrut
+    pip install djbrut
 
 Usage
 -----
@@ -69,3 +76,14 @@ keys.
 
 You can see `default settings <djbrut/default_settings.py>`__ for more
 params such as custom error message.
+
+.. |Build Status| image:: https://travis-ci.org/orsinium/django-bruteforce-protection.svg?branch=master
+   :target: https://travis-ci.org/orsinium/django-bruteforce-protection
+.. |PyPI version| image:: https://img.shields.io/pypi/v/djbrut.svg
+   :target: https://pypi.python.org/pypi/djbrut
+.. |Status| image:: https://img.shields.io/pypi/status/djbrut.svg
+   :target: https://pypi.python.org/pypi/djbrut
+.. |Code size| image:: https://img.shields.io/github/languages/code-size/orsinium/django-bruteforce-protection.svg
+   :target: https://github.com/orsinium/django-bruteforce-protection
+.. |License| image:: https://img.shields.io/pypi/l/djbrut.svg
+   :target: LICENSE
