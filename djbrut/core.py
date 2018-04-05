@@ -6,6 +6,9 @@ for checker in settings.BRUTEFORCE_CHECKERS:
     checker.settings = settings
 
 
+__all__ = ['Attempt', 'clear']
+
+
 class Attempt(object):
     """Check request by all possible checkers for specified rule type
     """
@@ -41,3 +44,14 @@ class Attempt(object):
         if incr:
             self.incr()
         return True
+
+
+def clear(rule='*', value='*'):
+    """Drop all counters from Redis
+    """
+    for checker in settings.BRUTEFORCE_CHECKERS:
+        checker.clear(
+            connection=Attempt.connection,
+            rule=rule,
+            value=value
+        )

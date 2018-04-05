@@ -64,6 +64,13 @@ class BaseChecker(object):
         data = self.connection.get(self.key)
         if not data:
             return 0
+
+        # drop expired keys
+        ttl = self.connection.ttl(self.key)
+        if ttl < 0:
+            self.connection.delete(self.key)
+            return 0
+
         return int(data)
 
     def log(self):
@@ -100,6 +107,16 @@ class BaseChecker(object):
         # compare with limit
         return count < self.limit
 
+    @classmethod
+    def clear(cls, connection, rule='*', value='*'):
+        template = cls.key_template.format(
+            rule=rule,
+            checker=cls.name,
+            value=value
+        )
+        for key in connection.keys(template):
+            connection.delete(key)
+
 
 class UserChecker(BaseChecker):
     name = 'user'
@@ -108,13 +125,19 @@ class UserChecker(BaseChecker):
         if not user:
             if not request:
                 return
-            if not getattr(request, 'user'):
-                return
-            if not getattr(request, 'user'):
+            if not getattr(request, 'user', None):
                 return
             user = request.user
-        if not user.is_authenticated():
-            return
+
+        # user.is_authenticated is callable for old Django and bool for Django 2.0
+        is_auth = user.is_authenticated
+        if type(is_auth) is bool:
+            if not is_auth:
+                return
+        else:
+            if not is_auth():
+                return
+
         return user.pk
 
 

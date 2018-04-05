@@ -1,0 +1,26 @@
+language: python
+python:
+    - "2.7"
+    - "3.4"
+    - "3.6"
+sudo: false
+env:
+    - DJANGO=1.8
+    - DJANGO=1.11
+    - DJANGO=2.0
+    - DJANGO=master
+matrix:
+    fast_finish: true
+    exclude:
+      - { python: "2.7", env: DJANGO=2.0 }
+      - { python: "2.7", env: DJANGO=master }
+      - { python: "3.4", env: DJANGO=master }
+services:
+    - redis-server
+install:
+    - if [[ $DJANGO == 'master' ]]; then pip install https://github.com/django/django/archive/master.tar.gz; fi
+    - if [[ $DJANGO != 'master' ]]; then pip install django==$DJANGO; fi
+    - pip install redis
+    - pip install -e .
+script:
+    - cd example && python manage.py test

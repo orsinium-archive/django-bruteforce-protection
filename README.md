@@ -2,6 +2,8 @@
 
 ![DjBrut logo](logo.png)
 
+[![Build Status](https://travis-ci.org/orsinium/django-bruteforce-protection.svg?branch=master)](https://travis-ci.org/orsinium/django-bruteforce-protection) [![PyPI version](https://img.shields.io/pypi/v/djbrut.svg)](https://pypi.python.org/pypi/djbrut) [![Status](https://img.shields.io/pypi/status/djbrut.svg)](https://pypi.python.org/pypi/djbrut) [![Code size](https://img.shields.io/github/languages/code-size/orsinium/django-bruteforce-protection.svg)](https://github.com/orsinium/django-bruteforce-protection) [![License](https://img.shields.io/pypi/l/djbrut.svg)](LICENSE)
+
 DjBrut -- simple brutforce protection for Django project.
 
 Default checkers:
