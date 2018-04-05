@@ -19,6 +19,7 @@ services:
 install:
     - if [[ $DJANGO == 'master' ]]; then pip install https://github.com/django/django/archive/master.tar.gz; fi
     - if [[ $DJANGO != 'master' ]]; then pip install django==$DJANGO; fi
+    - pip install redis
     - pip install -e .
 script:
     - cd example && python manage.py test
