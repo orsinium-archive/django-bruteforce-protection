@@ -65,3 +65,11 @@ BRUTEFORCE_LIMITS = {
 `BRUTEFORCE_TIMELIMIT` -- time to live for all attempts counters.
 
 You can see [default settings](djbrut/default_settings.py) for more params such as custom error message.
+
+## Advanced usage. Create custom checker
+
+If you want use custom checker:
+
+1. Create custom checker [like built-in](https://github.com/orsinium/django-bruteforce-protection/blob/1.0.0/djbrut/checkers.py#L121).
+2. Create new [Rules](djbrut/utils.py) with your checker attribute.
+3. Add your checker to [BRUTEFORCE_CHECKERS](https://github.com/orsinium/django-bruteforce-protection/blob/1.0.0/djbrut/default_settings.py#L41)
