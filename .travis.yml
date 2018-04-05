@@ -15,5 +15,7 @@ matrix:
       - { python: "2.7", env: DJANGO=master }
 install:
     - pip install tox tox-travis
+services:
+    - redis-server
 script:
     - tox
