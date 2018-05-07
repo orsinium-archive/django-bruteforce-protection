@@ -15,7 +15,7 @@ setup(
     keywords='djbrut django bruteforce protection security redis',
 
     packages=['djbrut'],
-    requires=['django', 'redis'],
+    install_requires=['django', 'django-ipware', 'redis'],
 
     url='https://github.com/orsinium/django-bruteforce-protection',
     download_url='https://github.com/orsinium/django-bruteforce-protection/tarball/master',

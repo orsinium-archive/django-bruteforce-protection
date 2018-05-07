@@ -1,3 +1,9 @@
+try:
+    # Use IP getter from django-axes if available.
+    from axes.utils import get_client_ip
+except ImportError:
+    # Use ipware directly otherwise.
+    from ipware.ip2 import get_client_ip
 
 
 class BaseChecker(object):
@@ -144,9 +150,17 @@ class UserChecker(BaseChecker):
 class IPChecker(BaseChecker):
     name = 'ip'
 
-    def get_value(self, request, **kwargs):
+    def get_value(self, request, ip=None, **kwargs):
         if not request:
             return
+        # from kwargs
+        if ip is not None:
+            return ip
+        # from axes or ipware
+        ip = get_client_ip(request)
+        if ip:
+            return ip
+        # directly from headers
         return request.META['REMOTE_ADDR']
 
 
